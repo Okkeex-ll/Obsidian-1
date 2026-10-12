@@ -522,9 +522,9 @@ local Templates = {
             Gap = 4,
             Padding = 6,
             CornerRadius = 8,
-            Indicator = false,
-            IndicatorWidth = 2,
-            IndicatorHeight = 20,
+            Indicator = true,
+            IndicatorWidth = 3,
+            IndicatorHeight = 22,
         }
     },
     Groupbox = {
@@ -17635,7 +17635,7 @@ function Library:CreateWindow(WindowInfo)
             })
 
             TabButton = New("TextButton", {
-                BackgroundColor3 = "MainColor",
+                BackgroundColor3 = "AccentColor",
                 BackgroundTransparency = 1,
                 LayoutOrder = 0,
                 Size = UDim2.new(1, 0, 0, 40),
@@ -17645,6 +17645,20 @@ function Library:CreateWindow(WindowInfo)
             New("UICorner", {
                 CornerRadius = UDim.new(0, TabButtonsStyle.CornerRadius),
                 Parent = TabButton,
+            })
+
+            TabIndicator = New("Frame", {
+                AnchorPoint = Vector2.new(0, 0.5),
+                BackgroundColor3 = "AccentColor",
+                BackgroundTransparency = 1,
+                Position = UDim2.new(0, 0, 0.5, 0),
+                Size = UDim2.fromOffset(TabButtonsStyle.IndicatorWidth, TabButtonsStyle.IndicatorHeight),
+                ZIndex = 3,
+                Parent = TabButton,
+            })
+            New("UICorner", {
+                CornerRadius = UDim.new(1, 0),
+                Parent = TabIndicator,
             })
 
             local ButtonHolder = New("Frame", {
@@ -19987,6 +20001,9 @@ function Library:CreateWindow(WindowInfo)
                     ImageTransparency = Hovering and 0.25 or 0.5,
                 }):Play()
             end
+            TweenService:Create(TabButton, Library.TweenInfo, {
+                BackgroundTransparency = Hovering and 0.82 or 1,
+            }):Play()
         end
 
         function Tab:Show()
@@ -19999,7 +20016,7 @@ function Library:CreateWindow(WindowInfo)
             end
 
             TweenService:Create(TabButton, Library.TweenInfo, {
-                BackgroundTransparency = 0,
+                BackgroundTransparency = 0.55,
             }):Play()
 
             if TabIndicator then
@@ -20202,7 +20219,7 @@ function Library:CreateWindow(WindowInfo)
         Icon = if Icon == "key" then KeyIcon else Library:GetCustomIcon(Icon)
         do
             TabButton = New("TextButton", {
-                BackgroundColor3 = "MainColor",
+                BackgroundColor3 = "AccentColor",
                 BackgroundTransparency = 1,
                 Size = UDim2.new(1, 0, 0, 40),
                 Text = "",
@@ -20212,6 +20229,20 @@ function Library:CreateWindow(WindowInfo)
             New("UICorner", {
                 CornerRadius = UDim.new(0, TabButtonsStyle.CornerRadius),
                 Parent = TabButton,
+            })
+
+            TabIndicator = New("Frame", {
+                AnchorPoint = Vector2.new(0, 0.5),
+                BackgroundColor3 = "AccentColor",
+                BackgroundTransparency = 1,
+                Position = UDim2.new(0, 0, 0.5, 0),
+                Size = UDim2.fromOffset(TabButtonsStyle.IndicatorWidth, TabButtonsStyle.IndicatorHeight),
+                ZIndex = 3,
+                Parent = TabButton,
+            })
+            New("UICorner", {
+                CornerRadius = UDim.new(1, 0),
+                Parent = TabIndicator,
             })
 
             local ButtonHolder = New("Frame", {
@@ -20440,6 +20471,9 @@ function Library:CreateWindow(WindowInfo)
                     ImageTransparency = Hovering and 0.25 or 0.5,
                 }):Play()
             end
+            TweenService:Create(TabButton, Library.TweenInfo, {
+                BackgroundTransparency = Hovering and 0.82 or 1,
+            }):Play()
         end
 
         function Tab:Show()
@@ -20452,7 +20486,7 @@ function Library:CreateWindow(WindowInfo)
             end
 
             TweenService:Create(TabButton, Library.TweenInfo, {
-                BackgroundTransparency = 0,
+                BackgroundTransparency = 0.55,
             }):Play()
 
             if TabIndicator then
