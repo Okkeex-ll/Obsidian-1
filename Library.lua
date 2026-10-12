@@ -17635,7 +17635,7 @@ function Library:CreateWindow(WindowInfo)
             })
 
             TabButton = New("TextButton", {
-                BackgroundColor3 = "AccentColor",
+                BackgroundColor3 = Color3.fromRGB(0, 0, 0),
                 BackgroundTransparency = 1,
                 LayoutOrder = 0,
                 Size = UDim2.new(1, 0, 0, 40),
@@ -17703,6 +17703,7 @@ function Library:CreateWindow(WindowInfo)
                 Label = TabLabel,
                 Padding = ButtonPadding,
                 Icon = TabIcon,
+                Indicator = TabIndicator,
             }
             table.insert(Library.TabButtons, TabButtonInfo)
 
@@ -20001,9 +20002,6 @@ function Library:CreateWindow(WindowInfo)
                     ImageTransparency = Hovering and 0.25 or 0.5,
                 }):Play()
             end
-            TweenService:Create(TabButton, Library.TweenInfo, {
-                BackgroundTransparency = Hovering and 0.82 or 1,
-            }):Play()
         end
 
         function Tab:Show()
@@ -20015,8 +20013,21 @@ function Library:CreateWindow(WindowInfo)
                 Library.ActiveTab:Hide()
             end
 
+            for _, Info in Library.TabButtons do
+                if Info.Button and Info.Button ~= TabButton then
+                    Info.Button.BackgroundTransparency = 1
+                    if Info.Indicator then
+                        Info.Indicator.BackgroundTransparency = 1
+                    end
+                end
+            end
+
+            TabButton.BackgroundTransparency = 0.32
+            if TabIndicator then
+                TabIndicator.BackgroundTransparency = 0
+            end
             TweenService:Create(TabButton, Library.TweenInfo, {
-                BackgroundTransparency = 0.55,
+                BackgroundTransparency = 0.32,
             }):Play()
 
             if TabIndicator then
@@ -20052,6 +20063,10 @@ function Library:CreateWindow(WindowInfo)
         end
 
         function Tab:Hide()
+            TabButton.BackgroundTransparency = 1
+            if TabIndicator then
+                TabIndicator.BackgroundTransparency = 1
+            end
             TweenService:Create(TabButton, Library.TweenInfo, {
                 BackgroundTransparency = 1,
             }):Play()
@@ -20219,7 +20234,7 @@ function Library:CreateWindow(WindowInfo)
         Icon = if Icon == "key" then KeyIcon else Library:GetCustomIcon(Icon)
         do
             TabButton = New("TextButton", {
-                BackgroundColor3 = "AccentColor",
+                BackgroundColor3 = Color3.fromRGB(0, 0, 0),
                 BackgroundTransparency = 1,
                 Size = UDim2.new(1, 0, 0, 40),
                 Text = "",
@@ -20286,6 +20301,7 @@ function Library:CreateWindow(WindowInfo)
                 Label = TabLabel,
                 Padding = ButtonPadding,
                 Icon = TabIcon,
+                Indicator = TabIndicator,
             })
 
             --// Tab Canvas \\--
@@ -20471,9 +20487,6 @@ function Library:CreateWindow(WindowInfo)
                     ImageTransparency = Hovering and 0.25 or 0.5,
                 }):Play()
             end
-            TweenService:Create(TabButton, Library.TweenInfo, {
-                BackgroundTransparency = Hovering and 0.82 or 1,
-            }):Play()
         end
 
         function Tab:Show()
@@ -20485,8 +20498,21 @@ function Library:CreateWindow(WindowInfo)
                 Library.ActiveTab:Hide()
             end
 
+            for _, Info in Library.TabButtons do
+                if Info.Button and Info.Button ~= TabButton then
+                    Info.Button.BackgroundTransparency = 1
+                    if Info.Indicator then
+                        Info.Indicator.BackgroundTransparency = 1
+                    end
+                end
+            end
+
+            TabButton.BackgroundTransparency = 0.32
+            if TabIndicator then
+                TabIndicator.BackgroundTransparency = 0
+            end
             TweenService:Create(TabButton, Library.TweenInfo, {
-                BackgroundTransparency = 0.55,
+                BackgroundTransparency = 0.32,
             }):Play()
 
             if TabIndicator then
@@ -20520,6 +20546,10 @@ function Library:CreateWindow(WindowInfo)
         end
 
         function Tab:Hide()
+            TabButton.BackgroundTransparency = 1
+            if TabIndicator then
+                TabIndicator.BackgroundTransparency = 1
+            end
             TweenService:Create(TabButton, Library.TweenInfo, {
                 BackgroundTransparency = 1,
             }):Play()
