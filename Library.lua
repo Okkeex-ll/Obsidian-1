@@ -519,9 +519,9 @@ local Templates = {
         TabSwipeFrom = "bottom",
         --// Main sidebar tab button styling (ported from devcomios)
         TabButtonsStyle = {
-            Gap = 0,
-            Padding = 0,
-            CornerRadius = 0,
+            Gap = 6,
+            Padding = 6,
+            CornerRadius = 8,
             Indicator = false,
             IndicatorWidth = 2,
             IndicatorHeight = 20,
@@ -17350,11 +17350,14 @@ function Library:CreateWindow(WindowInfo)
             end
 
             Button.Label.Visible = not IsCompact
-            Button.Padding.PaddingBottom = UDim.new(0, IsCompact and 6 or 11)
-            Button.Padding.PaddingLeft = UDim.new(0, IsCompact and 6 or 12)
-            Button.Padding.PaddingRight = UDim.new(0, IsCompact and 6 or 12)
-            Button.Padding.PaddingTop = UDim.new(0, IsCompact and 6 or 11)
+            Button.Padding.PaddingBottom = UDim.new(0, IsCompact and 7 or 11)
+            Button.Padding.PaddingLeft = UDim.new(0, IsCompact and 7 or 12)
+            Button.Padding.PaddingRight = UDim.new(0, IsCompact and 7 or 12)
+            Button.Padding.PaddingTop = UDim.new(0, IsCompact and 7 or 11)
             Button.Icon.SizeConstraint = IsCompact and Enum.SizeConstraint.RelativeXY or Enum.SizeConstraint.RelativeYY
+            if Button.Button then
+                Button.Button.Size = UDim2.new(1, 0, 0, IsCompact and 36 or 40)
+            end
 
             --// The chevron has no room compact, but the sub tabs themselves stay:
             --// their entries flip to centered icon-only rows and the list re-fits
@@ -17635,10 +17638,10 @@ function Library:CreateWindow(WindowInfo)
             })
 
             TabButton = New("TextButton", {
-                BackgroundColor3 = "MainColor",
+                BackgroundColor3 = "AccentColor",
                 BackgroundTransparency = 1,
                 LayoutOrder = 0,
-                Size = UDim2.new(1, 0, 0, 40),
+                Size = UDim2.new(1, 0, 0, IsCompact and 36 or 40),
                 Text = "",
                 Parent = TabHolder,
             })
@@ -17646,20 +17649,8 @@ function Library:CreateWindow(WindowInfo)
                 CornerRadius = UDim.new(0, TabButtonsStyle.CornerRadius),
                 Parent = TabButton,
             })
-            if TabButtonsStyle.Indicator then
-                TabIndicator = New("Frame", {
-                    AnchorPoint = Vector2.new(1, 0.5),
-                    BackgroundColor3 = "AccentColor",
-                    BackgroundTransparency = 1,
-                    Position = UDim2.new(0, -2, 0.5, 0),
-                    Size = UDim2.fromOffset(TabButtonsStyle.IndicatorWidth, TabButtonsStyle.IndicatorHeight),
-                    Parent = TabButton,
-                })
-                New("UICorner", {
-                    CornerRadius = UDim.new(1, 0),
-                    Parent = TabIndicator,
-                })
-            end
+            -- Indicator bar removed: active tab uses a filled rounded square.
+
             local ButtonPadding = New("UIPadding", {
                 PaddingBottom = UDim.new(0, IsCompact and 6 or 11),
                 PaddingLeft = UDim.new(0, IsCompact and 6 or 12),
@@ -17693,6 +17684,7 @@ function Library:CreateWindow(WindowInfo)
             end
 
             TabButtonInfo = {
+                Button = TabButton,
                 Label = TabLabel,
                 Padding = ButtonPadding,
                 Icon = TabIcon,
@@ -19994,6 +19986,9 @@ function Library:CreateWindow(WindowInfo)
                     ImageTransparency = Hovering and 0.25 or 0.5,
                 }):Play()
             end
+            TweenService:Create(TabButton, Library.TweenInfo, {
+                BackgroundTransparency = Hovering and 0.72 or 1,
+            }):Play()
         end
 
         function Tab:Show()
@@ -20209,9 +20204,9 @@ function Library:CreateWindow(WindowInfo)
         Icon = if Icon == "key" then KeyIcon else Library:GetCustomIcon(Icon)
         do
             TabButton = New("TextButton", {
-                BackgroundColor3 = "MainColor",
+                BackgroundColor3 = "AccentColor",
                 BackgroundTransparency = 1,
-                Size = UDim2.new(1, 0, 0, 40),
+                Size = UDim2.new(1, 0, 0, IsCompact and 36 or 40),
                 Text = "",
                 LayoutOrder = Order,
                 Parent = Tabs,
@@ -20221,20 +20216,8 @@ function Library:CreateWindow(WindowInfo)
                 Parent = TabButton,
             })
 
-            if TabButtonsStyle.Indicator then
-                TabIndicator = New("Frame", {
-                    AnchorPoint = Vector2.new(1, 0.5),
-                    BackgroundColor3 = "AccentColor",
-                    BackgroundTransparency = 1,
-                    Position = UDim2.new(0, -2, 0.5, 0),
-                    Size = UDim2.fromOffset(TabButtonsStyle.IndicatorWidth, TabButtonsStyle.IndicatorHeight),
-                    Parent = TabButton,
-                })
-                New("UICorner", {
-                    CornerRadius = UDim.new(1, 0),
-                    Parent = TabIndicator,
-                })
-            end
+            -- Indicator bar removed: active tab uses a filled rounded square.
+
 
             local ButtonPadding = New("UIPadding", {
                 PaddingBottom = UDim.new(0, IsCompact and 6 or 11),
@@ -20268,6 +20251,7 @@ function Library:CreateWindow(WindowInfo)
             end
 
             table.insert(Library.TabButtons, {
+                Button = TabButton,
                 Label = TabLabel,
                 Padding = ButtonPadding,
                 Icon = TabIcon,
@@ -20456,6 +20440,9 @@ function Library:CreateWindow(WindowInfo)
                     ImageTransparency = Hovering and 0.25 or 0.5,
                 }):Play()
             end
+            TweenService:Create(TabButton, Library.TweenInfo, {
+                BackgroundTransparency = Hovering and 0.72 or 1,
+            }):Play()
         end
 
         function Tab:Show()
