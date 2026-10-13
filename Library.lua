@@ -13757,7 +13757,7 @@ function Library:Notify(...)
         AnchorPoint = Library.NotifySide:lower() == "left" and Vector2.new(0, 0) or Vector2.new(1, 0),
         AutomaticSize = Enum.AutomaticSize.Y,
         BackgroundTransparency = 1,
-        Size = UDim2.fromScale(1, 0),
+        Size = UDim2.new(1, 0, 0, 0),
         Visible = false,
         Parent = NotificationArea,
     })
@@ -13766,11 +13766,10 @@ function Library:Notify(...)
         AutomaticSize = Enum.AutomaticSize.Y,
         BackgroundColor3 = "MainColor",
         Position = Library.NotifySide:lower() == "left" and UDim2.new(-1, -8, 0, -2) or UDim2.new(1, 8, 0, -2),
-        Size = UDim2.fromScale(1, 1),
+        Size = UDim2.new(1, 0, 0, 0),
         ZIndex = 5,
         Parent = FakeBackground,
     })
-    Library:RegisterBackgroundTarget(Holder)
     table.insert(
         Library.Corners,
         New("UICorner", {
