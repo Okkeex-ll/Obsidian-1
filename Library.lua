@@ -3803,7 +3803,6 @@ function Library:AddWatermark(Segments: { any }?)
 
     Library:AddOutline(Holder)
     Library:MakeDraggable(Holder, Holder, true)
-    Library:RegisterBackgroundTarget(Holder)
 
     Watermark.Holder = Holder
 
