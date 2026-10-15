@@ -3027,7 +3027,6 @@ function Library:MakeBoxPopOut(Box: any, Options: {
                 ZIndex = 1,
                 Parent = Floats,
             })
-            Library:RegisterBackgroundTarget(Float)
             FloatScale = New("UIScale", {
                 Parent = Float,
             })
@@ -3804,6 +3803,7 @@ function Library:AddWatermark(Segments: { any }?)
 
     Library:AddOutline(Holder)
     Library:MakeDraggable(Holder, Holder, true)
+    Library:RegisterBackgroundTarget(Holder)
 
     Watermark.Holder = Holder
 
