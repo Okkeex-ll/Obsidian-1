@@ -15352,7 +15352,7 @@ function Library:CreateWindow(WindowInfo)
                 Size = WindowInfo.IconSize,
                 Parent = TitleHolder,
                 ScaleType = Enum.ScaleType.Crop,
-                ImageColor3 = AssetIcon and Color3.new(1, 1, 1) or "AccentColor",
+                ImageColor3 = "AccentColor",
             })
             if AssetIcon then
                 New("UICorner", {
@@ -15706,6 +15706,7 @@ function Library:CreateWindow(WindowInfo)
                 New("ImageLabel", {
                     AnchorPoint = Vector2.new(0.5, 0.5),
                     Image = MiniIconData.Url,
+                    ImageColor3 = "AccentColor",
                     ImageRectOffset = MiniIconData.ImageRectOffset,
                     ImageRectSize = MiniIconData.ImageRectSize,
                     Position = UDim2.fromScale(0.5, 0.5),
