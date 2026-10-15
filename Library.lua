@@ -1878,18 +1878,31 @@ end
 
 local function getBackgroundAsset(Value)
     if typeof(Value) == "number" then
-        Value = "rbxassetid://" .. tostring(Value)
+        return "rbxassetid://" .. tostring(Value)
     end
 
     if typeof(Value) ~= "string" or Value == "" then
         return nil
     end
 
-    if not Value:match("^https?://") then
-        return Value:match("^rbxassetid://") and Value or "rbxassetid://" .. Value
+    if Value:match("^https?://") then
+        return BackgroundAssetCache[Value]
     end
 
-    return BackgroundAssetCache[Value]
+    if Value:match("^rbxassetid://") or Value:match("^rbxasset://") or Value:match("^rbxthumb://") then
+        return Value
+    end
+
+    if Value:match("^%d+$") then
+        return "rbxassetid://" .. Value
+    end
+
+    local Asset = safeGetCustomAsset(Value)
+    if typeof(Asset) == "string" and Asset ~= "" then
+        return Asset
+    end
+
+    return nil
 end
 
 local function requestBackgroundAsset(Value)
@@ -1963,11 +1976,11 @@ local function applyBackgroundTarget(Target, Asset)
         Active = false,
         BackgroundTransparency = 1,
         Image = Asset,
-        ImageTransparency = 0.8,
+        ImageTransparency = 0.22,
         Position = UDim2.fromScale(0, 0),
-        ScaleType = Enum.ScaleType.Stretch,
+        ScaleType = Enum.ScaleType.Crop,
         Size = UDim2.fromScale(1, 1),
-        ZIndex = math.max(0, Target.ZIndex - 1),
+        ZIndex = 0,
         Parent = Target,
     })
 
@@ -15328,11 +15341,25 @@ function Library:CreateWindow(WindowInfo)
 
         if WindowInfo.Icon then
             local Icon = Library:GetCustomIcon(WindowInfo.Icon)
+            local AssetIcon = Icon
+                and typeof(Icon.Url) == "string"
+                and (
+                    Icon.Url:match("^rbxassetid://")
+                    or Icon.Url:match("^rbxthumb://")
+                    or Icon.Url:match("^rbxasset://")
+                )
             WindowIcon = New("ImageLabel", {
                 Size = WindowInfo.IconSize,
                 Parent = TitleHolder,
-                ImageColor3 = "AccentColor"
+                ScaleType = Enum.ScaleType.Crop,
+                ImageColor3 = AssetIcon and Color3.new(1, 1, 1) or "AccentColor",
             })
+            if AssetIcon then
+                New("UICorner", {
+                    CornerRadius = UDim.new(0, 6),
+                    Parent = WindowIcon,
+                })
+            end
             if Icon then
                 Library:ApplyLucideIcon(WindowIcon, Icon)
             end
